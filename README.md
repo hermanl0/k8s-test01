@@ -25,7 +25,32 @@ This file has secrets from the cluster created at https://cloud.linode.com/
 ```bash
 user@host:~/k8s$ nano kubeconfig.yaml
 ```
+```yaml
+apiVersion: v1
+kind: Config
+preferences: {}
 
+clusters:
+- cluster:
+    certificate-authority-data: [CERTIFICATE_AUTHORITY_DATA_BASE64_ENCODED]
+    server: [CLUSTER_CONTROL_PLANE_URL]
+  name: [CLUSTER_NAME]
+
+users:
+- name: [CLUSTER_NAME]-admin
+  user:
+    as-user-extra: {}
+    token: [JWT_TOKEN_BASE64_ENCODED]
+
+contexts:
+- context:
+    cluster: [CLUSTER_NAME]
+    namespace: [NAMESPACE]
+    user: [CLUSTER_NAME]-admin
+  name: [CLUSTER_NAME]-ctx
+
+current-context: [CLUSTER_NAME]-ctx
+```
 ---
 
 ## Step 4: Set KUBECONFIG environment variable
@@ -199,4 +224,3 @@ user@host:~/k8s$ curl 172.232.131.83
 > pod: hello-k8s-deployment-[HASH]
 > node: - (Linux 6.1.0-41-cloud-amd64)
 ```
-
